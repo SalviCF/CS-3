@@ -1,6 +1,7 @@
 package dataStructures.bag;
 
 /**
+ * Practice 4
  * Un saco (o multiconjunto) es parecido a un conjunto salvo que un 
  * elemento puede estar incluido varias veces.
  * 
