@@ -3,8 +3,6 @@ package p4_TAD_bag;
  * A simple test driver for the Bag ADT.
  */
 
-import dataStructures.bag.*;
-
 public class BagTester {
 
 	public static void main(String[] args) {
