@@ -11,11 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Plato {
 
 	private final int capacidad;
-	private int bichitos = 0; //bichitos que hya en el plato
+	private int bichitos = 0; 
 	
 	private Lock l = new ReentrantLock(true);
-	private Condition pajaros = l.newCondition(); //espacio en el plato para poner bichitos
-	private Condition pollitos = l.newCondition(); //bichitos en el plato
+	private Condition pajaros = l.newCondition(); 
+	private Condition pollitos = l.newCondition(); 
 	
 	public Plato(int capacidad){
 		this.capacidad = capacidad;
@@ -24,7 +24,7 @@ public class Plato {
 	public void poneBichito(int pajaro) throws InterruptedException{
 		l.lock();
 		try{
-			while(bichitos == capacidad){ //plato lleno
+			while(bichitos == capacidad){ 
 				pajaros.await();
 			}
 			bichitos++;

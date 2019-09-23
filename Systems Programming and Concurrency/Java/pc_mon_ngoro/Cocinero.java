@@ -16,7 +16,7 @@ public class Cocinero extends Thread{
 	public void run(){
 		try{
 			while(true){
-				caldera.dormirCocinar(); //
+				caldera.dormirCocinar();
 			}
 		}catch(InterruptedException e){
 			e.printStackTrace();

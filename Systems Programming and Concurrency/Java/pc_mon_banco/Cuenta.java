@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Cuenta {
 
-	private int balance; //nunca puede ser negativo. Permito extraer si hay suficiente
+	private int balance; 
 	private Lock l = new ReentrantLock(true);
 	private Condition suficienteDinero = l.newCondition();
 	
@@ -23,10 +23,10 @@ public class Cuenta {
 			System.out.println("El cliente " + cliente + " deposita " + cantidad + " euros."
 					+ " Balance: " + balance + " euros.");
 			suficienteDinero.signal(); //despierto a alguna hebra esperando en la condición
-			/*
-			 * si al despertarla, la cantidad sigue siendo mayor, vuelve a esperar, 
-			 * ya que está dentro del while
-			 */
+			
+		        //si al despertarla, la cantidad sigue siendo mayor, vuelve a esperar, 
+
+			
 		}finally{
 			l.unlock();
 		}

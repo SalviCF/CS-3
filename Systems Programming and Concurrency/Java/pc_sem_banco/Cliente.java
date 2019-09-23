@@ -24,8 +24,8 @@ public class Cliente extends Thread{
 		
 		while(true){
 			try{
-				dinero = r.nextInt(100); //cantidad a sacar/meter de/en la cuenta
-				sleep(r.nextInt(3000)); //para que no se ejecute todo de forma continua
+				dinero = r.nextInt(100);
+				sleep(r.nextInt(3000)); 
 				
 				sacarOmeter = r.nextInt(2); 
 				if(sacarOmeter == 0){

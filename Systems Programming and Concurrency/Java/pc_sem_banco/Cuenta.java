@@ -8,10 +8,10 @@ import java.util.concurrent.Semaphore;
 
 public class Cuenta {
 
-	private int balance; //nunca puede ser negativo. Permito extraer si hay suficiente
+	private int balance; 
 	
-	private int necesito; //dinero que necesito sacar, pero no puedo porque no hay suficiente en la cuenta
-	private boolean rojo = false; //flag que indica si quiero sacar más de lo que hay
+	private int necesito; 
+	private boolean rojo = false; 
 	
 	private Semaphore sacar = new Semaphore(1, true); 
 	private Semaphore mutex = new Semaphore(1, true);
@@ -22,14 +22,14 @@ public class Cuenta {
 	public void extraer(int cliente, int cantidad) throws InterruptedException{
 		sacar.acquire();
 		mutex.acquire();
-		if(cantidad > balance){ //si quiero sacar más de lo que hay
+		if(cantidad > balance){ 
 			rojo = true;
-			necesito = cantidad; //espero hasta que haya esta cantidad
+			necesito = cantidad; 
 			System.out.println("El cliente " + cliente + " espera para sacar " + cantidad
 					+ " euros.\t\t\tBalance: " + balance);
-			mutex.release(); //se hace un release del mutex, pero no de sacar
-			//si hago sacar.release(), puede que me quede esperando para siempre
-			esperandoLiquidez.acquire(); //ahora, la hebra espera en este semáforo hasta que haya suficiente balance
+			mutex.release(); 
+			
+			esperandoLiquidez.acquire(); 
 			mutex.acquire(); 
 		}
 		balance -= cantidad;

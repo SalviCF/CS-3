@@ -29,8 +29,8 @@ public class UnidadControl {
 			System.out.println("El proceso [p" + proceso + "] llega a la cola ... "
 					+ "Demanda <" + recursos + "> recursos ... " + "Hay <" + totalRecursos 
 					+ "> recursos disponibles.\n");
-			//el primero que llega no espera
-			while(esperarEnCola){ //todos esperan en la cola
+			
+			while(esperarEnCola){ 
 				cola.await();
 			}
 			esperarEnCola = true; 
@@ -40,7 +40,6 @@ public class UnidadControl {
 				hayRecursos.await(); 
 			}
 			
-			//avanzo si hay recursos
 			totalRecursos -= recursos;
 			System.out.println("La unidad de control asigna <" + recursos 
 						+ "> recursos al proceso [p" + proceso + "] ... Hay <" + totalRecursos 

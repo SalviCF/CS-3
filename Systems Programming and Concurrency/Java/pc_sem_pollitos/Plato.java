@@ -12,9 +12,9 @@ public class Plato {
 	
 	private int bichitos = 0; 
 	
-	private Semaphore hayBicho = new Semaphore(0, true); //bloquea si no hay bicho
-	private Semaphore mutex = new Semaphore(1, true); //para exclusión mutua (modificar variable "bichitos")
-	private Semaphore hayEspacioEnPlato = new Semaphore(1, true); //bloquea si no hay espacio en plato
+	private Semaphore hayBicho = new Semaphore(0, true); 
+	private Semaphore mutex = new Semaphore(1, true); 
+	private Semaphore hayEspacioEnPlato = new Semaphore(1, true); 
 	
 	public Plato(int capacidad){
 		this.capacidad = capacidad;
@@ -22,8 +22,8 @@ public class Plato {
 	
 	public void poneBichito(int pajaro) throws InterruptedException{
 	
-		hayEspacioEnPlato.acquire(); //me bloqueo si no hay espacio en el plato
-		mutex.acquire(); //voy a modificar "bichitos"
+		hayEspacioEnPlato.acquire(); 
+		mutex.acquire(); 
 		System.out.println("El pájaro " + pajaro + " pone un bichito en el plato.");
 		bichitos++;
 		System.out.println("Hay " + bichitos + " bichitos en el plato.");
@@ -33,13 +33,13 @@ public class Plato {
 		if(bichitos < capacidad){ 
 			hayEspacioEnPlato.release();
 		}
-		mutex.release(); //suelto el mutex
+		mutex.release();
 	}
 	
 	public void comerBichito(int pollito) throws InterruptedException{
 
-		hayBicho.acquire(); //si no hay bichos me espero
-		mutex.acquire(); //cojo el mutex para modificar "bichitos"
+		hayBicho.acquire(); 
+		mutex.acquire(); 
 		System.out.println("El pollito " + pollito + " se ha comido un bichito.");
 		bichitos--;
 		if(bichitos == capacidad-1){ 

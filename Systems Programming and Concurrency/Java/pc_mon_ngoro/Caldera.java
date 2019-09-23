@@ -26,13 +26,13 @@ public class Caldera {
 			l.lock();
 			while (exploradores != 0) {
 				System.out.println("Cocinero duerme en la choza.");
-				cocinero.await(); // (unlock + wait) cocinero se duerme
+				cocinero.await(); 
 			}
 			System.out.println("Cocinero empieza a cocinar");
 			Thread.sleep(1000);
 			exploradores = capacidad;
 			System.out.println("Cocinero llena la caldera con " + exploradores + " exploradores");
-			canibales.signal(); //despierto a un caníbal que esperaba comida
+			canibales.signal(); 
 		} finally {
 			l.unlock();
 		}
@@ -43,16 +43,16 @@ public class Caldera {
 			l.lock();
 			while (exploradores == 0) { 
 				System.out.println("El caníbal " + canibal + " espera comida");
-				canibales.await(); //bloqueo a los caníbales que quieran comer hasta que haya comida
+				canibales.await(); 
 			}
 			exploradores--;
 			System.out.println("El caníbal " + canibal + " se come a un explorador. Exploradores que quedan: " + exploradores);
 			if (exploradores == 0)
-				cocinero.signal(); //despierto al cocinero
+				cocinero.signal(); 
 			else
-				canibales.signal(); //despierto al siguiente caníbal que esperaba comida
+				canibales.signal(); 
 		} finally {
 			l.unlock();
 		}
-}
+	}
 }

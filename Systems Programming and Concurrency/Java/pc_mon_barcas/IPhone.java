@@ -23,7 +23,7 @@ public class IPhone extends Thread{
 				b.iphone(id);
 				Thread.sleep(r.nextInt(1000));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
