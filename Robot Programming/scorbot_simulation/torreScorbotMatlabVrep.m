@@ -1,3 +1,13 @@
+% Author: Salvi CF
+
+%{
+    Use:
+        1. Open V-REP and open the scene "main_scene.ttt"
+        2. Open folder "scorbot_simulation" in Matlab
+        3. Start the simulation in V-REP
+        4. Run "torreScorbotMatlabVrep.m" in Matlab
+%}
+
 clear;
 close all;
 
