@@ -1,5 +1,5 @@
 -- Alumno: Salvador CF
--- Relación de ejercicios 2. Ejercicios resueltos: 6, 7, 8, 13, 14, 23, 24, 31
+-- Relación de ejercicios 2. 
 
 import Test.QuickCheck
 import Data.List
