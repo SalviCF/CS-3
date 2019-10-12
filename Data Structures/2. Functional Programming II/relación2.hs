@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 -- Alumno: Salvador CF
--- Relación de ejercicios 2. 
-=======
--- Author: Salvador CF
 -- Relación de ejercicios 2.
->>>>>>> 9adf4f6693d34f33151c031f17d0aa8f4162c002
 
 import Test.QuickCheck
 import Data.List
