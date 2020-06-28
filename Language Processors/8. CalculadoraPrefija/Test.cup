@@ -1,0 +1,55 @@
+// Calculadora prefija (polaca) (evalua las expresiones)
+/*
+Escribir un programa en CUP que sea capaz de evaluar una expresion aritmética 
+con los cuatro operadores básicos, en notación prefija. 
+
+La notacion prefija, es similar a la notacion polaca inversa, 
+pero colocando los operadores delante de los operandos.
+
+Los siguientes son ejemplos de entradas y sus correspondientes salidas. 
+(Cada fichero de entrada contiene una sola línea).
+
+Entrada                                 Salida	
+_____________________________________________________________
++ + 1 2 3                                 6
++ + 3 * 5 7 9                             47
++ / 16 8 - * 4 2 1					      9
+
+*/
+import java_cup.runtime.*;
+
+/* Terminales */
+
+terminal MAS, MENOS, POR, DIV; // sin atributo
+terminal Integer NUMERO; // con atributo
+
+/* No terminales */
+
+non terminal Object linea; // sin atributo
+non terminal Integer exp; // con atributo
+
+/* Precedencia */
+precedence left MAS, MENOS; // menor prioridad
+precedence left POR, DIV; // mayor prioridad
+// precedence left MU; // podría usarse para el menos unario
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+
+linea ::= exp:e {: System.out.println(e); :}
+;
+
+exp	::=	MAS exp:e1 exp:e2	{: RESULT = e1 + e2; :}
+	| MENOS exp:e1 exp:e2	{: RESULT = e1 - e2; :}
+	| POR exp:e1 exp:e2		{: RESULT = e1 * e2; :}
+	| DIV exp:e1 exp:e2		{: RESULT = e1 / e2; :}
+	| NUMERO:n				{: RESULT = n; :}
+; 
+
+/*
+S -> exp
+exp -> MAS exp exp
+	| MENOS exp exp
+	| POR exp exp
+	| DIV exp exp
+	| NUMERO
+*/

@@ -1,0 +1,36 @@
+import java_cup.runtime.*;
+
+/* Terminales */
+terminal String SUMA, RESTA, MULTIPLICA, DIVIDE, COMA, PYC, AP, CP; // con atributo
+terminal Integer NUMERO;
+
+/* No terminales */
+
+non terminal Object linea; // sin atributo
+non terminal Integer exp, lista; // con atributo
+
+/* Precedencia */
+precedence left SUMA, RESTA; // menor prioridad
+precedence left MULTIPLICA, DIVIDE; // mayor prioridad
+// precedence left MU; // podría usarse para el menos unario
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+
+linea ::= lista:l {: System.out.println(l); :}
+;
+
+lista ::= SUMA AP exp:e1 COMA exp:e2 CP PYC      {: RESULT = e1 + e2; :}
+        | SUMA AP exp:e1 COMA exp:e2 CP          {: RESULT = e1 + e2; :}
+        | RESTA AP exp:e1 COMA exp:e2 CP PYC          {: RESULT = e1 - e2; :}
+        | RESTA AP exp:e1 COMA exp:e2 CP          {: RESULT = e1 - e2; :}
+        | MULTIPLICA AP exp:e1 COMA exp:e2 CP PYC          {: RESULT = e1 * e2; :}
+        | MULTIPLICA AP exp:e1 COMA exp:e2 CP           {: RESULT = e1 * e2; :}
+        | DIVIDE AP exp:e1 COMA exp:e2 CP PYC          {: RESULT = e1 / e2; :}
+        | DIVIDE AP exp:e1 COMA exp:e2 CP           {: RESULT = e1 / e2; :}
+; 
+
+exp ::= NUMERO:n             {: RESULT = new Integer(n); :}
+    |   lista:l              {: RESULT = l; :}
+;
+
+

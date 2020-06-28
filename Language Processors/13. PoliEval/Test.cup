@@ -1,0 +1,34 @@
+import java_cup.runtime.*;
+import java.util.*;
+
+action code {:
+    public static int x = 0;
+:}
+
+/* Terminales */
+terminal MAS, MENOS, ELEV, ASIG, PYC, X; // sin atributo
+terminal Integer NUMERO; // con atributo
+
+/* No terminales */
+non terminal Object linea, dec; // sin atributo
+non terminal Integer exp; // con atributo
+
+/* Precedencia */
+precedence left MAS, MENOS; // menor prioridad
+precedence left ELEV; // mayor prioridad
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+
+linea ::= X ASIG NUMERO:n {: x = n; :} PYC exp:e PYC {: System.out.println(e); :}
+        | X ASIG MENOS NUMERO:n {: x = -n; :} PYC exp:e PYC {: System.out.println(e); :}
+;
+
+exp	::= X   {: RESULT = x; :}
+    |   NUMERO:n X {: RESULT = x * n; :}
+    |   NUMERO:n1 X ELEV NUMERO:n2 {: RESULT = n1 * (int) Math.pow(x, n2);; :}
+    |   exp:e1 MAS exp:e2 {: RESULT = e1 + e2; :}
+    |   exp:e1 MENOS exp:e2 {: RESULT = e1 - e2; :}
+    |   X ELEV NUMERO:n {: RESULT = (int) Math.pow(x, n);:}
+    |   NUMERO:n {: RESULT = n; :}
+    |   MENOS NUMERO:n {: RESULT = -n; :}
+; 

@@ -1,0 +1,46 @@
+// Calculadora 
+import java_cup.runtime.*;
+
+/* Terminales */
+
+terminal MAS, MENOS, POR, DIV, LT, PI, PD; // sin atributo
+terminal Integer NUM; // con atributo
+
+/* No terminales */
+
+non terminal Object lista_exps, linea; // sin atributo
+non terminal Integer exp; // con atributo
+
+/* Precedencia */
+precedence left LT;
+precedence left MAS, MENOS; // menor prioridad
+precedence left POR, DIV; // mayor prioridad
+// precedence left MU; // para el menos unario
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+/*
+S          -> lista_exps
+lista_exps -> lista_exps linea
+			| linea
+
+linea -> exp
+		| lineTerminator
+*/
+
+lista_exps ::= lista_exps linea 
+			| linea 
+; 
+
+linea ::= exp:e {: System.out.println(e); :}
+		| LT
+;
+
+exp	::=	exp:e1 MAS exp:e2	{: RESULT = e1 + e2; :}
+	| exp:e1 MENOS exp:e2	{: RESULT = e1 - e2; :}
+	| exp:e1 POR exp:e2		{: RESULT = e1 * e2; :}
+	| exp:e1 DIV exp:e2		{: RESULT = e1 / e2; :}
+	| NUM:n					{: RESULT = n; :}
+	| MENOS exp:e 			{: RESULT = -e; :} %prec POR
+	| PI exp:e PD			{: RESULT = (e); :}
+; 
+

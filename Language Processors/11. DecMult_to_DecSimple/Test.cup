@@ -1,0 +1,58 @@
+// Declaración múltiple a declaración simple
+
+import java_cup.runtime.*;
+
+/* Código de usuario *///////////////////////////////////////////////////////////////////////////
+
+/*action code {:
+    public static String tipo = "";
+:}*/
+
+
+/* Terminales */ //////////////////////////////////////////////////////////////////////////
+
+terminal String INT, LONG, FLOAT, DOUBLE, CHAR, BOOLEAN, IDENT, PYC, COMA; // con atributo
+
+/* No terminales */ //////////////////////////////////////////////////////////////////////////
+
+non terminal Object lineas; // sin atributo
+non terminal String dec, varI, varD, varL, varF, varC, varB; // con atributo
+
+/* Precedencia *///////////////////////////////////////////////////////////////////////////
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */ ///////////////////
+
+lineas ::= dec:d                {: System.out.println(d); :} 
+;
+
+dec	::=	INT varI:vi PYC         {: RESULT = vi; :}
+    |   DOUBLE varD:vd PYC      {: RESULT = vd; :}
+    |   LONG varL:vl PYC        {: RESULT = vl; :}
+    |   FLOAT varF:vf PYC       {: RESULT = vf; :}
+    |   CHAR varC:vc PYC        {: RESULT = vc; :}
+    |   BOOLEAN varB:vb PYC     {: RESULT = vb; :}
+; 
+
+varI ::= varI:v COMA IDENT:id   {: RESULT = v + "int " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "int " + id + ";\n"; :}
+;
+
+varD ::= varD:v COMA IDENT:id   {: RESULT = v + "double " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "double " + id + ";\n"; :}
+;
+
+varL ::= varL:v COMA IDENT:id   {: RESULT = v + "long " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "long " + id + ";\n"; :}
+;
+
+varF ::= varF:v COMA IDENT:id   {: RESULT = v + "float " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "float " + id + ";\n"; :}
+;
+
+varC ::= varC:v COMA IDENT:id   {: RESULT = v + "char " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "char " + id + ";\n"; :}
+;
+
+varB ::= varB:v COMA IDENT:id   {: RESULT = v + "boolean " + id + ";\n"; :}
+    |    IDENT:id               {: RESULT = "boolean " + id + ";\n"; :}
+;

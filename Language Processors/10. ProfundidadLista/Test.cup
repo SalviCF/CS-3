@@ -1,0 +1,64 @@
+// Valor ponderado lista
+
+/*
+Escribir un programa en CUP que calcule un cierto valor ponderado de una lista de números. 
+El valor ponderado se calcula según la profuncidad que el número tiene en la lista.
+
+La evaluación se hace de la siguiente manera: La lista vacía [] se evalua a cero. 
+
+La lista con un solo número se evalua al valor de ese numero [1], se evalua a 1.
+
+La lista de varios números se evalua mediante la suma, por ejemplo [1,2,3,4] se evalúa a 10. 
+
+Cuando hay anidamiento los valores cuentan doble, cuadruple, etc, por ejemplo [1,[2],[[3,4]],5], 
+se evalúa como 1 + 2^1*2 + 2^2*(3+4) + 5 = 38. 
+
+En caso de que la lista de entrada no este correctamente estructurada la salida debe ser "Syntax error".
+
+Los siguientes son ejemplos de entradas y sus correspondientes salidas. 
+(Cada fichero de entrada contiene una sola línea).
+
+Entrada                         Salida
+______________________________________________
+[1,[2],[[3,4]],5]                38       
+[1,[1,[1,2]],[[],[]],1]          16                
+[[ [], [1], [[], [1,1]] ]]       20            
+*/
+
+//---------------------------------------------------------------------------------------------
+
+import java_cup.runtime.*;
+import java.util.ArrayList;
+
+/* Código de usuario *///////////////////////////////////////////////////////////////////////////
+
+action code {:
+    public static boolean init = true;
+    public static int pond = 1;
+:}
+
+/* Terminales */////////////////////////////////////////////////////////////////////////////////
+terminal Integer AC, CC, COMA, NUMERO; // con atributo
+
+/* No terminales */
+non terminal Object  linea; // sin atributo
+non terminal Integer lista, nums; // con atributo
+
+/* Precedencia *//////////////////////////////////////////////////////////////////////////////////
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) *//////////////////////////
+
+linea ::= lista:l		{: 
+                            System.out.println(l);
+						:}
+;
+
+lista ::= AC CC {: RESULT = 0; :}
+		| AC {: if (!init) pond *= 2; init = false; :} nums:ns CC {: RESULT = ns; pond /= 2; :}
+; 
+
+nums ::= lista:l {: RESULT = l; :}
+        | NUMERO:n {: RESULT = n*pond; :}
+        | nums:ns COMA NUMERO:n {: RESULT = ns + n*pond; :}
+        | nums:ns COMA lista:l {: RESULT = ns + l; :}
+;

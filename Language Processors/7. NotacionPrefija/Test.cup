@@ -1,0 +1,63 @@
+// Calculadora prefija (polaca) (solo muestra la notación, no evalua las expresiones)
+/*
+Escribir un programa en CUP que sea capaz de traducir una expresion aritmética con 
+los cuatro operadores básicos, usando como operandos tanto números como identificadores, 
+en una expresion en notación prefija. 
+
+La notacion prefija, es similar a la notacion polaca inversa, pero colocando los operadores 
+delante de los operandos. Los operadores deben tener la misma prioridad y asociatividad 
+que en el lenguaje Java
+
+Los siguientes son ejemplos de entradas y sus correspondientes salidas. 
+(Cada fichero de entrada contiene una sola línea) 
+
+Entrada                                 Salida	
+_____________________________________________________________
+1+2+3                           	+ + 1 2 3
+alfa + beta * ganma + 77           + + alfa * beta ganma 77
+(3*x)+((2*y)/(1*z))					+ * 3 x / * 2 y * 1 z
+
+*/
+import java_cup.runtime.*;
+
+/* Terminales */
+
+terminal MAS, MENOS, POR, DIV, AP, CP; // sin atributo
+terminal String NUMERO, IDENT; // con atributo
+
+/* No terminales */
+
+non terminal Object linea; // sin atributo
+non terminal String exp; // con atributo
+
+/* Precedencia */
+precedence left MAS, MENOS; // menor prioridad
+precedence left POR, DIV; // mayor prioridad
+// precedence left MU; // podría usarse para el menos unario
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+
+linea ::= exp:e {: System.out.println(e); :}
+;
+
+exp	::=	exp:e1 MAS exp:e2	{: RESULT = "+ " + e1 + " " + e2; :}
+	| exp:e1 MENOS exp:e2	{: RESULT = "- " + e1 + " " + e2; :}
+	| exp:e1 POR exp:e2		{: RESULT = "* " + e1 + " " + e2; :}
+	| exp:e1 DIV exp:e2		{: RESULT = "/ " + e1 + " " + e2; :}
+	| NUMERO:n				{: RESULT = n; :}
+    | IDENT:id              {: RESULT = id; :}
+	| MENOS exp:e 			{: RESULT = "- " + "0 " + e; :} %prec POR
+	| AP exp:e CP			{: RESULT = e; :}
+; 
+
+/*
+S -> exp
+exp -> exp MAS exp
+	| exp MENOS exp
+	| exp POR exp
+	| exp DIV exp
+	| NUMERO
+	| IDENT 
+	| MENOS exp
+	| AP exp CP
+*/

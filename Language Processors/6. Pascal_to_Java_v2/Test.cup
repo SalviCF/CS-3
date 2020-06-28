@@ -1,0 +1,61 @@
+/*
+Escribir un programa en CUP que sea capaz de traducir una lista de declaraciones al estilo PASCAL, 
+a una declaracion de variables al estilo de Java, conservando el orden de las variables 
+en la declaracion.
+
+Los siguientes son ejemplos de entradas y sus correspondientes salidas.
+(Cada fichero de entrada contiene una sola lÃ­nea).
+
+Entrada                     Salida
+x: int;                     int x;
+a, b, c: int;               int a, b, c;
+p,q: double;                double p, q;
+*/
+
+import java_cup.runtime.*;
+
+/* Código de usuario *///////////////////////////////////////////////////////////////////////////
+
+action code {:
+    public static String tipo = "";
+:}
+
+
+/* Terminales */ //////////////////////////////////////////////////////////////////////////
+
+terminal INT, DOUBLE, PYC, COMA, DP; // sin atributo
+terminal String IDENT; // con atributo
+
+/* No terminales */ //////////////////////////////////////////////////////////////////////////
+
+non terminal Object linea; // sin atributo
+non terminal String dec, vars; // con atributo
+
+/* Precedencia *///////////////////////////////////////////////////////////////////////////
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */ ///////////////////
+
+linea ::= dec:d     {: if (tipo == "int") { System.out.println("int " + d); } 
+                        else { System.out.println("double " + d);}
+                    :} 
+;
+
+dec	::=	vars:v DP INT {: tipo = "int"; :} PYC           {: RESULT = v + ";"; :}
+    |   vars:v DP DOUBLE {: tipo = "double"; :} PYC     {: RESULT = v + ";"; :}
+; 
+
+vars ::= IDENT:id COMA vars:v                           {: RESULT = id + ", " + v; :}
+    |    IDENT:id                                       {: RESULT = id; :}
+;
+
+/*
+
+S -> dec
+dec -> INT vi PYC
+    |  DOUBLE vd PYC
+vi -> vi IDENT 
+    | IDENT
+vd -> vd IDENT 
+    | IDENT
+
+*/

@@ -1,0 +1,40 @@
+/*
+Escribir un programa en CUP que sea capaz de invertir una lista compuesta por números e 
+identificadores en cualquier orden, es decir, a partir de la entrada: 1 alfa 5 7 beta
+debe ser capaz de producir la salida: beta 7 5 alfa 1
+
+No es necesario conservar las mismas separaciones que en el fichero original, 
+basta con invertir los elementos separandolos con un espacio en blanco. 
+Puede asumirse que solo hay una línea.
+*/
+import java_cup.runtime.*;
+
+/* Terminales */
+
+terminal String IDENT, NUMERO; // con atributo
+
+/* No terminales */
+
+//non terminal Object lista; // sin atributo
+non terminal String linea, exp; // con atributo
+
+/* Precedencia */
+precedence left IDENT, NUMERO;
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) */
+
+linea ::= exp:e			{: System.out.println(e); :}
+;
+
+exp	::=	exp:e1 exp:e2	{: RESULT = e2 + " " + e1; :}
+      | IDENT:i			{: RESULT = i + " "; :}
+	  | NUMERO:n		{: RESULT = n + " "; :}
+; 
+
+/*
+
+S -> exp
+exp -> exp exp
+	| IDENT
+	| NUMERO
+*/

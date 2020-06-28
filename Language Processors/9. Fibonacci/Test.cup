@@ -1,0 +1,55 @@
+// Fibonacci checker
+
+/*
+Escribir un programa en CUP que sea capaz de determinar si una lista compuesta por dos o mas 
+numeros enteros positivos es una sucesion de Fibonacci, es decir, si la serie es de la 
+forma x_1 ... x_n-2 x_n-1 x_n ... se cumple que para todo n x_n-2 + x_n-1 = x_n
+
+Los siguientes son ejemplos de entradas y salidas. 
+(Cada fichero de entrada contiene una sola línea).
+
+Entrada                         Salida
+______________________________________________
+4 6 10 16 26                       SI
+1 2                                SI
+4 4 8 8 16 16                      NO
+4 6 10 6 4                         NO
+*/
+
+//---------------------------------------------------------------------------------------------
+
+import java_cup.runtime.*;
+import java.util.ArrayList;
+
+/* Código de usuario *///////////////////////////////////////////////////////////////////////////
+
+action code {:
+    public static boolean fib = true;
+	public static ArrayList<Integer> lista = new ArrayList<Integer>();
+:}
+
+/* Terminales */////////////////////////////////////////////////////////////////////////////////
+terminal Integer NUMERO; // con atributo
+
+/* No terminales */
+non terminal Object  linea; // sin atributo
+non terminal Integer nums; // con atributo
+
+/* Precedencia *//////////////////////////////////////////////////////////////////////////////////
+
+/* Gramatica (cuando no hay nada a la derecha del '|' indica EPSILON) *//////////////////////////
+
+linea ::= nums:ns		{:  
+							for (int i = 2; i < lista.size() && fib == true; i++) {
+								if (lista.get(i) != (lista.get(i-1) + lista.get(i-2))){
+									fib = false;
+								}
+							} 
+							if (fib) { System.out.println("SI"); }
+							else { System.out.println("NO"); }
+						:}
+;
+
+nums	::= nums:ns NUMERO:n {: lista.add(n); :}
+		| NUMERO:n {: lista.add(n);; :}
+; 
