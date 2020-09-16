@@ -1,0 +1,1 @@
+Knapsack problem solved by using dynamic programming, greedy algorithm and brute force algorithm

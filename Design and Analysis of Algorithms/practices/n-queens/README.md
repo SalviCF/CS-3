@@ -1,0 +1,1 @@
+N-Queens problem solved by backtracking algorithm
